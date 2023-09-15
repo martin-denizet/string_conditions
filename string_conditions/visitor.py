@@ -2,7 +2,7 @@ import ast
 import operator
 import re
 from _ast import BoolOp, Expr, Expression, Call, Tuple, BinOp, UnaryOp, Name, Attribute
-from typing import Any
+from typing import Any, Dict
 
 from string_conditions.errors import UnsupportedSyntaxError, UnknownVariableError, InvalidContextError
 
@@ -41,7 +41,7 @@ class BooleanEvaluationVisitor(ast.NodeVisitor):
         len: None
     }
 
-    def __init__(self, context: dict[str, Any]):
+    def __init__(self, context: Dict[str, Any]):
         super().__init__()
 
         if context is None:
