@@ -1,0 +1,26 @@
+[project]
+name = "string_conditions"
+version = "0.0.1"
+description = "Evaluate string Python conditions while keeping control on functions and variables accessible"
+readme = "README.md"
+authors = [
+    {name = "Martin DENIZET"}
+]
+license = {text = "Apache-2.0"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/simonw/demo-package"
+Changelog = "https://github.com/simonw/demo-package/releases"
+Issues = "https://github.com/simonw/demo-package/issues"
+
+[build-system]
+requires = ["setuptools",  "wheel"]
+build-backend = "setuptools.build_meta"
