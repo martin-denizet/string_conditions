@@ -13,5 +13,6 @@ class UnknownVariableError(StringConditionError):
 class BadSyntaxError(StringConditionError):
     pass
 
+
 class InvalidContextError(Exception):
     pass

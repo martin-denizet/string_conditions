@@ -1,16 +1,13 @@
 import argparse
 import ast
 import json
-import re
 import sys
 from json import JSONDecodeError
 
-from string_conditions import evaluate_condition
-
-RE_VAR = re.compile(r"^[A-Za-z_]\w*$")
+from string_conditions import evaluate_condition, validate_context
 
 
-def valid_json(arg_context: str) -> dict:
+def valid_context(arg_context: str) -> dict:
     """Custom argparse type for user provided json vars or Python literal
     :raises argparse.ArgumentTypeError:
     """
@@ -20,36 +17,33 @@ def valid_json(arg_context: str) -> dict:
     except JSONDecodeError:
         try:
             context_dict = ast.literal_eval(arg_context)
-        except ValueError:
-            raise argparse.ArgumentTypeError("context is neither a valid JSON or a valid Python dict")
-    if not isinstance(context_dict, dict):
-        raise argparse.ArgumentTypeError("context must be dict")
+        except ValueError as e:
+            raise argparse.ArgumentTypeError(f"context is neither a valid JSON or a valid Python dict.\nError: {e}")
 
-    for k in context_dict.keys():
-        if not isinstance(k, str):
-            raise argparse.ArgumentTypeError(f"context dict keys must be strings, found {type(k)} with value '{k}'")
-        if not RE_VAR.match(k):
-            raise argparse.ArgumentTypeError(f"context dict keys must be valid variable names, found '{k}'")
+    try:
+        validate_context(context_dict)
+    except ValueError as e:
+        raise argparse.ArgumentTypeError(str(e))
 
     return context_dict
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Evaluate a string condition using Python syntax and variables given as argument")
-    parser.add_argument("condition", required=True, type=str,
-                        help="A string without leading whitespace. Example:"
-                             "\"(year > 2020 and type not in ('std', 'premium'))"
-                             " or message.lower().startswith('hello')\"")
-    parser.add_argument("context", required=False,
-                        help="")
+        description="Evaluate a string condition using Python syntax and variables given as argument\n"
+                    "Usage:\n"
+                    '  "(year > 2020 and type not in (\'std\', \'premium\')) or message.lower().startswith(\'hello\')'
+                    ' --context \'{"year":2020, "type":"new", "message": "hello world"}\'',
+        formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument("condition", type=str,
+                        help="A string without leading whitespace")
+    parser.add_argument("-c", "--context", required=False, type=valid_context, default=dict(),
+                        help="A dictionary, with variable name as a key. Can be either JSON or Python synthax")
     return parser.parse_args()
 
 
 def process_args(args):
-    context = json.loads(args.context)
-
-    if not evaluate_condition(args.condition, context):
+    if not evaluate_condition(args.condition, args.context):
         sys.exit(1)
 
 

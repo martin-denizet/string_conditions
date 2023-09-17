@@ -16,7 +16,7 @@ def operator_in(value, in_iterable):
 
 
 class BooleanEvaluationVisitor(ast.NodeVisitor):
-    # Define a dictionary to map operators to their corresponding functions
+    # Dictionary to map operators to their corresponding functions
     OPERATORS = {
         ast.Eq: operator.eq,
         ast.NotEq: operator.ne,
@@ -33,8 +33,8 @@ class BooleanEvaluationVisitor(ast.NodeVisitor):
 
     TYPE_FUNCTIONS = {
         str: ('lower', 'upper', 'startswith', 'endswith'),
-
     }
+
     FUNCTIONS = {
         re: ('match',),
         str: None,
@@ -49,11 +49,9 @@ class BooleanEvaluationVisitor(ast.NodeVisitor):
         self.validate_context(context)
         self.context = context
 
-    def validate_context(self, context):
+    def validate_context(self, context: Dict) -> None:
         """
         Raise exception when context contains reserved keywords
-        :param context:
-        :return:
         """
 
         for reserved_keyword in [k.__name__ for k in self.FUNCTIONS.keys()]:
@@ -159,3 +157,4 @@ class BooleanEvaluationVisitor(ast.NodeVisitor):
 
     def visit_Set(self, node) -> set:
         return set(self.visit(v) for v in node.elts)
+

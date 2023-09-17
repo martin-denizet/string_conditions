@@ -1,7 +1,7 @@
 import unittest
 
-from string_conditions.errors import BadSyntaxError, UnsupportedSyntaxError, UnknownVariableError
 from string_conditions import evaluate_condition
+from string_conditions.errors import BadSyntaxError, UnsupportedSyntaxError, UnknownVariableError
 
 
 class TestStringMethods(unittest.TestCase):
@@ -33,31 +33,31 @@ class TestStringMethods(unittest.TestCase):
     def test_sequences(self):
         # Tuple
         self.assertTrue(evaluate_condition(
-            'type in ("SomeType","LZ")',
+            'type in ("SomeType","ValueNotInType")',
             self.context
         ))
         # List
         self.assertTrue(evaluate_condition(
-            'type in ["SomeType","LZ"]',
+            'type in ["SomeType","ValueNotInType"]',
             self.context
         ))
 
     def test_in(self):
         self.assertTrue(evaluate_condition(
-            'type in ("SomeType","LZ")',
+            'type in ("SomeType","ValueNotInType")',
             self.context
         ))
         self.assertFalse(evaluate_condition(
-            'type not in ("SomeType","LZ")',
+            'type not in ("SomeType","ValueNotInType")',
             self.context
         ))
 
         self.assertFalse(evaluate_condition(
-            'type in (1, "LZ")',
+            'type in (1, "ValueNotInType")',
             self.context
         ))
         self.assertTrue(evaluate_condition(
-            'type not in (1,"LZ")',
+            'type not in (1,"ValueNotInType")',
             self.context
         ))
 
@@ -182,10 +182,10 @@ class TestStringMethods(unittest.TestCase):
 
     def test_functions(self):
         self.assertStringConditionTrue(
-            "re.match(r'\w+',type)"
+            "re.match(r'\\w+', type)"
         )
         self.assertStringConditionFalse(
-            "re.match(r'\d+',type)"
+            "re.match(r'\\d+', type)"
         )
 
         self.assertStringConditionTrue(
@@ -232,5 +232,5 @@ class TestStringMethods(unittest.TestCase):
         )
 
 
-if __name__ == '__mSomeTypen__':
-    unittest.mSomeTypen()
+if __name__ == '__main__':
+    unittest.main()
