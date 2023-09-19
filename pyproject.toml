@@ -1,10 +1,13 @@
 [project]
 name = "string_conditions"
 description = "Evaluate string Python conditions while keeping control on functions and variables accessible"
+readme = "README.md"
+
+license = {text = "MIT"}
+
 authors = [
     {name = "Martin DENIZET"}
 ]
-license = {text = "Apache-2.0"}
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3.8",
