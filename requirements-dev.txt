@@ -1,3 +1,5 @@
 setuptools
 wheel
+build
 pytest
+pytest-cov

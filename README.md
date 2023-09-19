@@ -1,4 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![codecov](https://codecov.io/gh/martin-denizet/string_conditions/graph/badge.svg?token=8NOUUP037M)](https://codecov.io/gh/martin-denizet/string_conditions)
 # string_conditions
 Evaluate string Python conditions while keeping control on functions and variables accessible.
 
